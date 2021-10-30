@@ -62,7 +62,7 @@
         app:constraint_referenced_ids="avatar, date, author_name" />
 
     <TextView
-        android:id="@+id/post"
+        android:id="@+id/contentPost"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/indent"
@@ -80,7 +80,7 @@
         android:layout_marginTop="@dimen/indent"
         android:layout_marginBottom="@dimen/indent"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="post" />
+        app:constraint_referenced_ids="contentPost" />
 
     <ImageButton
         android:id="@+id/likes"
