@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.dto.Post
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,8 +28,8 @@ class MainActivity : AppCompatActivity() {
             authorName.text = post.author
             date.text = post.date
             contentPost.text = post.content
-            likesCount.text = post.likesCount.toString()
-            shareCount.text = post.shareCount.toString()
+            likesCount.text = PostService.countPresents(post.likesCount)
+            shareCount.text = PostService.countPresents(post.shareCount)
 
             likes.setImageResource(
                 if (post.likedByMe) {
@@ -49,13 +50,12 @@ class MainActivity : AppCompatActivity() {
                 )
                 if (post.likedByMe) post.likesCount++
                 else post.likesCount--
-                likesCount.text = PostService.countLikesPresents(post)
-
+                likesCount.text = PostService.countPresents(post.likesCount)
             }
 
             share.setOnClickListener {
                 post.shareCount++
-                shareCount.text = PostService.countSharePresents(post)
+                shareCount.text = PostService.countPresents(post.shareCount)
             }
 
         }

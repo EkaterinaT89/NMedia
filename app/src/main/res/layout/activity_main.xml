@@ -25,7 +25,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:layout_margin="@dimen/indent"
-        app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintStart_toEndOf="@+id/avatar"
         app:layout_constraintEnd_toStartOf="@id/menu_button"
         app:layout_constraintTop_toTopOf="parent"
