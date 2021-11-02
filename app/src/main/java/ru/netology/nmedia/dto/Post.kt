@@ -4,10 +4,10 @@ data class Post(
     val id: Int,
     val author: String,
     val content: String,
-    var likedByMe: Boolean,
-    var likesCount: Long = 1999,
+    val likedByMe: Boolean,
+    val likesCount: Long = 6999,
     val date: String,
-    var shareCount: Long = 2000
+    var shareCount: Long = 7000
 
 ) {
 
