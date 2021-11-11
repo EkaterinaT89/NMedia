@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,12 +8,110 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/tools_barrier_cancel_edit"
         tools:listitem="@layout/card_post"
          />
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/tools_barrier"
+        app:constraint_referenced_ids="save_button, edit_content"
+        app:barrierDirection="top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/edit_content"
+        android:background="@android:color/transparent"
+        android:autofillHints="no"
+        android:inputType="textMultiLine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tools_barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/save_button"
+        />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="cancel_edit_button, pencil, edit_post_name, author_name, tools_barrier_cancel_edit" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/tools_barrier_cancel_edit"
+        app:constraint_referenced_ids="cancel_edit_button, pencil, edit_post_name, author_name"
+        app:barrierDirection="top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <ImageView
+        android:id="@+id/cancel_edit_button"
+        app:layout_constraintTop_toBottomOf="@+id/tools_barrier_cancel_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:scrollbarSize="48dp"
+        android:src="@drawable/ic_cancel_edit_24"
+        app:layout_constraintBottom_toTopOf="@id/tools_barrier"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/pencil"
+        app:layout_constraintTop_toBottomOf="@+id/tools_barrier_cancel_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="48dp"
+        android:src="@drawable/ic_pencil_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@id/tools_barrier"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_post_name"
+        app:layout_constraintTop_toBottomOf="@+id/tools_barrier_cancel_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:autofillHints="no"
+        android:background="@android:color/transparent"
+        android:text="@string/Edit_post_cancel_edit"
+        app:layout_constraintBottom_toTopOf="@id/author_name"
+        app:layout_constraintEnd_toStartOf="@+id/cancel_edit_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/pencil" />
+
+    <TextView
+        android:id="@+id/author_name"
+        android:autofillHints="no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/author_name"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@id/tools_barrier"
+        app:layout_constraintEnd_toStartOf="@+id/cancel_edit_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/pencil" />
+
+    <ImageView
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="48dp"
+        android:src="@drawable/ic_save_48"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
