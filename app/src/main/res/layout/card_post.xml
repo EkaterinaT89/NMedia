@@ -40,7 +40,7 @@
         app:layout_constraintStart_toEndOf="@+id/author_name"
         app:layout_constraintTop_toBottomOf="@+id/author_name" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,8 +49,10 @@
         android:contentDescription="@string/description_post_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_more_vert_24"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:checkable="false"
+        app:icon="@drawable/ic_baseline_more_vert_24"
+        style="@style/Widget.AppTheme.ShareMenuSawButton"
+        />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/top_barrier"
@@ -81,73 +83,55 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="contentPost" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checkable="true"
         android:layout_margin="@dimen/indent"
         android:background="@android:color/transparent"
+        app:icon="@drawable/like_checkbox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:srcCompat="@drawable/ic_baseline_favorite_border_24"
-        tools:ignore="TouchTargetSizeCheck"
-        android:contentDescription="@string/description_likes" />
+        android:contentDescription="@string/description_likes"
+        style="@style/Widget.AppTheme.LikeButton"
+        />
 
-    <TextView
-        android:id="@+id/likes_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/indent"
-        android:layout_marginStart="@dimen/indent_likes"
-        app:layout_constraintStart_toEndOf="@id/likes"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:layout_constraintTop_toTopOf="@id/bottom_barrier"
-        app:layout_constraintEnd_toStartOf="@id/share"
-        tools:text="@sample/posts.json/data/likes" />
-
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/indent"
-        android:layout_marginTop="@dimen/indent"
+        app:layout_constraintStart_toEndOf="@id/likes"
+        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:icon="@drawable/share_icon"
+        android:checkable="false"
+        android:contentDescription="@string/description_share"
         android:background="@android:color/transparent"
-        app:layout_constraintStart_toEndOf="@id/likes_count"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:layout_constraintTop_toTopOf="@id/bottom_barrier"
-        app:srcCompat="@drawable/share_icon"
-        tools:ignore="TouchTargetSizeCheck"
-        android:contentDescription="@string/description_share" />
+        style="@style/Widget.AppTheme.ShareMenuSawButton"
+        />
 
-    <TextView
-        android:id="@+id/share_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/indent"
-        android:layout_marginStart="@dimen/indent_likes"
-        app:layout_constraintStart_toEndOf="@id/share"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:layout_constraintTop_toTopOf="@id/bottom_barrier"
-        tools:text="@sample/posts.json/data/share" />
-
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/saw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/indent_likes"
         android:layout_marginTop="@dimen/indent"
-        app:layout_constraintEnd_toStartOf="@id/saw_count"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:srcCompat="@drawable/post_saw"
+        app:icon="@drawable/post_saw"
+        android:checkable="false"
+        android:background="@android:color/transparent"
+        style="@style/Widget.AppTheme.ShareMenuSawButton"
         android:contentDescription="@string/description_share"/>
 
-    <TextView
-        android:id="@+id/saw_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/indent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@sample/posts.json/data/saw" />
+<!--    <TextView-->
+<!--        android:id="@+id/saw_count"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="@dimen/indent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        tools:text="@sample/posts.json/data/saw" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
