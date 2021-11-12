@@ -2,4 +2,13 @@
 <resources>
     <string name="app_name">NMedia</string>
     <string name="text">NMedia!</string>
+    <string name="description_post_author_avatar" translatable="false">Post author avatar</string>
+    <string name="description_post_menu" translatable="false">Post menu</string>
+    <string name="description_likes" translatable="false">Post like</string>
+    <string name="description_share" translatable="false">Post share</string>
+    <string name="remove">Remove</string>
+    <string name="edit" translatable="false">Edit</string>
+    <string name="Text_for_hint">Вы ничего не ввели!</string>
+    <string name="Edit_post_cancel_edit">Редактирование поста</string>
+    <string name="author_name" translatable="false">Нетология</string>
 </resources>
