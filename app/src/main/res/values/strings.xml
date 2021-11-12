@@ -10,5 +10,5 @@
     <string name="edit" translatable="false">Edit</string>
     <string name="Text_for_hint">Вы ничего не ввели!</string>
     <string name="Edit_post_cancel_edit">Редактирование поста</string>
-    <string name="author_name">Нетология</string>
+    <string name="author_name" translatable="false">Нетология</string>
 </resources>
