@@ -18,7 +18,7 @@ interface OnInteractionListener {
     fun onEdit(post: Post)
     fun onRemove(post: Post)
     fun onShare(post: Post)
-
+    fun onPlayVideo(post: Post)
 }
 
 class PostAdapter(private val onInteractionListener: OnInteractionListener) :
@@ -42,7 +42,12 @@ class PostViewHolder(
     private val onInteractionListener: OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+
+
     fun bind(post: Post) {
+
+
+
         binding.apply {
             authorName.text = post.author
             date.text = post.date
@@ -52,12 +57,21 @@ class PostViewHolder(
 
             likes.isChecked = post.likedByMe
 
+            if(!post.video.isNullOrEmpty()) {
+                videoLink.text = post.video
+                groupForVideo.visibility = View.VISIBLE
+            }
+
             likes.setOnClickListener {
                onInteractionListener.onLike(post)
             }
 
             share.setOnClickListener{
                 onInteractionListener.onShare(post)
+            }
+
+            playVideo.setOnClickListener{
+                onInteractionListener.onPlayVideo(post)
             }
 
             menuButton.setOnClickListener {

@@ -1,6 +1,7 @@
 package ru.netology.nmedia.viewmodel
 
 import android.opengl.Visibility
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +17,8 @@ private val emptyPost = Post(
     content = " ",
     likesCount = 0,
     likedByMe = false,
-    shareCount = 0
+    shareCount = 0,
+    video = null
 )
 
 class PostViewModel : ViewModel() {
@@ -55,5 +57,7 @@ class PostViewModel : ViewModel() {
         }
         edited.value = edited.value?.copy(content = formatted)
     }
+
+    fun video() = repository.video()
 
 }

@@ -30,6 +30,49 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@sample/posts.json/data/author" />
 
+    <androidx.constraintlayout.widget.Group
+    android:id="@+id/group_for_video"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    app:constraint_referenced_ids="video_link, play_video" />
+
+    <TextView
+        android:id="@+id/video_link"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:autoLink="web"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_barrier"
+        app:layout_constraintEnd_toEndOf="@+id/contentPost"
+        app:layout_constraintStart_toStartOf="@+id/contentPost"
+        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        tools:text="@sample/posts.json/data/video" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/play_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_netology_logo_foreground"
+        android:checkable="false"
+        android:contentDescription="@string/description_share"
+        app:icon="@drawable/play_video"
+        android:autoLink="web"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toTopOf="@id/video_link"
+        app:layout_constraintEnd_toEndOf="@+id/contentPost"
+        app:layout_constraintStart_toStartOf="@+id/contentPost"
+        app:layout_constraintTop_toBottomOf="@id/contentPost" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/video_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indent"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="video_link, play_video" />
+
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
@@ -67,12 +110,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/indent"
-        tools:text="@sample/posts.json/data/content"
+        android:autoLink="web"
+        app:layout_constraintBottom_toBottomOf="@id/video_barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_barrier"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
-        android:autoLink="web" />
+        app:layout_constraintVertical_bias="0.406"
+        tools:text="@sample/posts.json/data/content" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/bottom_barrier"
@@ -81,7 +125,7 @@
         android:layout_marginTop="@dimen/indent"
         android:layout_marginBottom="@dimen/indent"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="contentPost" />
+        app:constraint_referenced_ids="contentPost, video_link" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likes"

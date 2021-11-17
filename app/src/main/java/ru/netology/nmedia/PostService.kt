@@ -1,5 +1,6 @@
 package ru.netology.nmedia
 
+import android.view.View
 import ru.netology.nmedia.dto.Post
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -54,7 +55,6 @@ object PostService {
         df.roundingMode = RoundingMode.FLOOR
         return df.format(counterForPrint/1000).toDouble().toString()
     }
-
 
 }
 

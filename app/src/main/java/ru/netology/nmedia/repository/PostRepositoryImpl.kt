@@ -1,7 +1,10 @@
 package ru.netology.nmedia.repository
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.PostService
+import ru.netology.nmedia.PostService.post
 import ru.netology.nmedia.dto.Post
 
 class PostRepositoryImpl: PostRepository {
@@ -18,7 +21,7 @@ class PostRepositoryImpl: PostRepository {
         Post(
             id = nextId++,
             author = "Нетология. Университет интернет-профессий будущего",
-            content = "Знаний хватит на всех: на следующей неделе разбираемся с разработкой мобильных приложений, учимся рассказывать истории и составлять PR-стратегию прямо на бесплатных занятиях \uD83D\uDC47",
+            content = "Знаний хватит на всех: на следующей неделе разбираемся с разработкой мобильных приложений, учимся рассказывать истории и составлять PR-стратегию прямо на бесплатных занятиях",
             date = "18 сентября в 10:12",
             likedByMe = false
         ),
@@ -46,7 +49,7 @@ class PostRepositoryImpl: PostRepository {
         Post(
             id = nextId++,
             author = "Нетология. Университет интернет-профессий будущего",
-            content = "\uD83D\uDE80 24 сентября стартует новый поток бесплатного курса «Диджитал-старт: первый шаг к востребованной профессии» — за две недели вы попробуете себя в разных профессиях и определите, что подходит именно вам → http://netolo.gy/fQ",
+            content = " 24 сентября стартует новый поток бесплатного курса «Диджитал-старт: первый шаг к востребованной профессии» — за две недели вы попробуете себя в разных профессиях и определите, что подходит именно вам → http://netolo.gy/fQ",
             date = "21 сентября в 10:12",
             likedByMe = false
         ),
@@ -60,7 +63,7 @@ class PostRepositoryImpl: PostRepository {
         Post(
             id = nextId++,
             author = "Нетология. Университет интернет-профессий будущего",
-            content = "Делиться впечатлениями о любимых фильмах легко, а что если рассказать так, чтобы все заскучали \uD83D\uDE34\n",
+            content = "Делиться впечатлениями о любимых фильмах легко, а что если рассказать так, чтобы все заскучали ",
             date = "22 сентября в 10:14",
             likedByMe = false
         ),
@@ -69,7 +72,8 @@ class PostRepositoryImpl: PostRepository {
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Освоение новой профессии — это не только открывающиеся возможности и перспективы, но и настоящий вызов самому себе. Приходится выходить из зоны комфорта и перестраивать привычный образ жизни: менять распорядок дня, искать время для занятий, быть готовым к возможным неудачам в начале пути. В блоге рассказали, как избежать стресса на курсах профпереподготовки → http://netolo.gy/fPD",
             date = "23 сентября в 10:12",
-            likedByMe = false
+            likedByMe = false,
+            video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
         ),
     ).reversed()
 
@@ -117,6 +121,10 @@ class PostRepositoryImpl: PostRepository {
                 it
             }
         }
+        data.value = posts
+    }
+
+    override fun video() {
         data.value = posts
     }
 
