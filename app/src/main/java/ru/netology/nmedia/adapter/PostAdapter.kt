@@ -42,11 +42,7 @@ class PostViewHolder(
     private val onInteractionListener: OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-
-
     fun bind(post: Post) {
-
-
 
         binding.apply {
             authorName.text = post.author
@@ -54,13 +50,15 @@ class PostViewHolder(
             contentPost.text = post.content
             likes.text = PostService.countPresents(post.likesCount)
             share.text = PostService.countPresents(post.shareCount)
+            videoLink.text = post.video
 
             likes.isChecked = post.likedByMe
 
-            if(!post.video.isNullOrEmpty()) {
-                videoLink.text = post.video
+            if (!post.video.isNullOrEmpty()) {
                 groupForVideo.visibility = View.VISIBLE
-            }
+            } else {
+                groupForVideo.visibility = View.GONE
+        }
 
             likes.setOnClickListener {
                onInteractionListener.onLike(post)

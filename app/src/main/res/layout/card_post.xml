@@ -52,7 +52,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/play_video"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_netology_logo_foreground"
         android:checkable="false"
