@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,17 +28,6 @@ class CardPostFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
-    val post: Post = Post(
-        id = 0,
-        author = " ",
-        date = " ",
-        content = " ",
-        likesCount = 0,
-        likedByMe = false,
-        shareCount = 0,
-        video = null
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,17 +39,17 @@ class CardPostFragment : Fragment() {
             false
         )
 
-       arguments?.showPost.let {
+        arguments?.showPost?.let { post: Post ->
             with(binding) {
-                authorName.text = it?.author
-                date.text = it?.date
-                contentPost.text = it?.content
-                likes.text = PostService.countPresents(it!!.likesCount)
-                share.text = PostService.countPresents(it.shareCount)
-                videoLink.text = it.video
-                likes.isChecked = it.likedByMe
+                authorName.text = post.author
+                date.text = post.date
+                contentPost.text = post.content
+                likes.text = PostService.countPresents(post.likesCount)
+                share.text = PostService.countPresents(post.shareCount)
+                videoLink.text = post.video
+                likes.isChecked = post.likedByMe
 
-                if (!it.video.isNullOrEmpty()) {
+                if (!post.video.isNullOrEmpty()) {
                     groupForVideo.visibility = View.VISIBLE
                 } else {
                     groupForVideo.visibility = View.GONE
@@ -73,16 +61,18 @@ class CardPostFragment : Fragment() {
                         setOnMenuItemClickListener { item ->
                             when (item.itemId) {
                                 R.id.remove -> {
-                                    viewModel.removeById(it.id.toLong())
+                                    viewModel.removeById(post.id)
                                     findNavController().navigateUp()
                                     true
                                 }
                                 R.id.edit -> {
-                                       findNavController().navigate(
-                                           R.id.editPostFragment,
-                                           Bundle().apply {
-                                              textArg = contentPost.text.toString()
-                                           })
+                                    viewModel.edit(post)
+                                    findNavController().navigateUp()
+                                    findNavController().navigate(
+                                        R.id.editPostFragment,
+                                        Bundle().apply {
+                                            textArg = contentPost.text.toString()
+                                        })
                                     true
                                 }
                                 else -> false
@@ -91,10 +81,10 @@ class CardPostFragment : Fragment() {
                     }.show()
                 }
                 likes.setOnClickListener {
-                    viewModel.likeById(it.id.toLong())
+                    viewModel.likeById(post.id)
                 }
                 share.setOnClickListener {
-                    viewModel.shareById(it.id.toLong())
+                    viewModel.shareById(post.id)
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         putExtra(Intent.EXTRA_TEXT, post.content)
