@@ -59,5 +59,4 @@ class PostViewModel : ViewModel() {
     }
 
     fun video() = repository.video()
-
 }

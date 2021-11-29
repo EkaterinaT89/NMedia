@@ -1,5 +1,6 @@
 package ru.netology.nmedia.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.PostService
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.CardPostBinding
+import ru.netology.nmedia.activity.CardPostFragment.Companion.showPost
+import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
+import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.util.PostArg
 
 
 interface OnInteractionListener {
@@ -19,13 +23,15 @@ interface OnInteractionListener {
     fun onRemove(post: Post)
     fun onShare(post: Post)
     fun onPlayVideo(post: Post)
+    fun onSinglePost(post: Post)
 }
 
 class PostAdapter(private val onInteractionListener: OnInteractionListener) :
     ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            FragmentCardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener)
     }
 
@@ -36,14 +42,12 @@ class PostAdapter(private val onInteractionListener: OnInteractionListener) :
 
 }
 
-
 class PostViewHolder(
-    private val binding: CardPostBinding,
+    private val binding: FragmentCardPostBinding,
     private val onInteractionListener: OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Post) {
-
         binding.apply {
             authorName.text = post.author
             date.text = post.date
@@ -58,18 +62,22 @@ class PostViewHolder(
                 groupForVideo.visibility = View.VISIBLE
             } else {
                 groupForVideo.visibility = View.GONE
-        }
-
-            likes.setOnClickListener {
-               onInteractionListener.onLike(post)
             }
 
-            share.setOnClickListener{
+            likes.setOnClickListener {
+                onInteractionListener.onLike(post)
+            }
+
+            share.setOnClickListener {
                 onInteractionListener.onShare(post)
             }
 
-            playVideo.setOnClickListener{
+            playVideo.setOnClickListener {
                 onInteractionListener.onPlayVideo(post)
+            }
+
+            contentPost.setOnClickListener {
+                onInteractionListener.onSinglePost(post)
             }
 
             menuButton.setOnClickListener {
@@ -90,10 +98,8 @@ class PostViewHolder(
                     }
                 }.show()
             }
-
         }
     }
-
 }
 
 class PostDiffCallback : DiffUtil.ItemCallback<Post>() {

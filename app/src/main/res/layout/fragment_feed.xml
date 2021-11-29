@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.FeedFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/container"
@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/card_post" />
+        tools:listitem="@layout/fragment_card_post" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ok_button"
@@ -28,7 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"
         app:srcCompat="@drawable/add" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

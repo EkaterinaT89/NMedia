@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/indent">
+    android:padding="@dimen/indent"
+    tools:context=".activity.CardPostFragment">
 
     <ImageView
         android:id="@+id/avatar"
@@ -31,11 +32,11 @@
         tools:text="@sample/posts.json/data/author" />
 
     <androidx.constraintlayout.widget.Group
-    android:id="@+id/group_for_video"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    app:constraint_referenced_ids="video_link, play_video" />
+        android:id="@+id/group_for_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="video_link, play_video" />
 
     <TextView
         android:id="@+id/video_link"
@@ -111,6 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/indent"
         android:autoLink="web"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="@id/video_barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,14 +170,5 @@
         android:background="@android:color/transparent"
         style="@style/Widget.AppTheme.ShareMenuSawButton"
         android:contentDescription="@string/description_share"/>
-
-<!--    <TextView-->
-<!--        android:id="@+id/saw_count"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="@dimen/indent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        tools:text="@sample/posts.json/data/saw" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
