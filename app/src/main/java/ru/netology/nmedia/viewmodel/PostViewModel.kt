@@ -1,13 +1,8 @@
 package ru.netology.nmedia.viewmodel
 
 import android.app.Application
-import android.opengl.Visibility
-import android.view.View
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import ru.netology.nmedia.R
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
@@ -25,9 +20,8 @@ private val emptyPost = Post(
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-
     private val repository: PostRepository = PostRepositorySQLiteImpl(
-        AppDb.getInstance(application).postDao
+        AppDb.getInstance(context = application).postDao()
     )
 
     val data = repository.getAll()
