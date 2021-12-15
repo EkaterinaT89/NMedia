@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">НМедиа</string>
-    <string name="text">НМедиа!</string>
     <string name="remove">Remove</string>
     <string name="Text_for_hint">Вы ничего не ввели!</string>
     <string name="Edit_post_cancel_edit">Редактирование поста</string>
