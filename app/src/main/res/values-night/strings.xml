@@ -3,4 +3,9 @@
     <string name="remove">Remove</string>
     <string name="Text_for_hint">Вы ничего не ввели!</string>
     <string name="Edit_post_cancel_edit">Редактирование поста</string>
+    <string name="channel_remote_name" />
+    <string name="channel_remote_description" />
+    <string name="notification_user_liked" />
+    <string name="google_play_unavailable" translatable="false">Google Api Unavailable</string>
+    <string name="notification_new_post">%1$s создал новый пост: %2$s</string >
 </resources>
