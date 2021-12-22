@@ -18,4 +18,9 @@
     <string name="play_video" translatable="false">Play video</string>
     <string name="author_name" translatable="false">Нетология</string>
     <string name="error_empty_content" translatable="false">Content can\'t be empty</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string >
+    <string name="notification_new_post">%1$s создал новый пост: %2$s</string >
+    <string name="google_play_unavailable" translatable="false">Google Api Unavailable</string>
 </resources>
