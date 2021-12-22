@@ -13,6 +13,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import ru.netology.nmedia.R
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.exception.ActionNotFoundException
 import kotlin.random.Random
 
 class FCMService : FirebaseMessagingService() {
@@ -37,18 +38,22 @@ class FCMService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         val actionKey = message.data[DATA_ACTION_KEY] ?: return
-        val action = Action.values().single {it.key == actionKey}
-        when(action) {
-            Action.Like -> {
-                val content = message.data[DATA_CONTENT_KEY]
-                val like = gson.fromJson(content, Like::class.java)
-                handleLike(like)
+        val action = Action.values().single { it.key == actionKey }
+        try {
+            when (action) {
+                Action.Like -> {
+                    val content = message.data[DATA_CONTENT_KEY]
+                    val like = gson.fromJson(content, Like::class.java)
+                    handleLike(like)
+                }
+                Action.NewPost -> {
+                    val content = message.data[DATA_CONTENT_KEY]
+                    val newPost = gson.fromJson(content, Post::class.java)
+                    handleNewPost(newPost)
+                }
             }
-            Action.NewPost -> {
-                val content = message.data[DATA_CONTENT_KEY]
-                val newPost = gson.fromJson(content, Post::class.java)
-                handleNewPost(newPost)
-            }
+        } catch (e: ActionNotFoundException) {
+            println("Уведомления для такого действия не предусмотрены.")
         }
     }
 
@@ -84,8 +89,10 @@ class FCMService : FirebaseMessagingService() {
                     post.content
                 )
             )
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(post.content))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(post.content)
+            )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
@@ -111,4 +118,6 @@ data class Like(
     val userName: String,
     val postId: Long,
     val postAuthor: String,
-)
+) {
+
+}
