@@ -3,13 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.netology.nmedia">
 
+    <uses-permission android:name="adroid.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NMedia">
+        android:theme="@style/Theme.NMedia"
+        android:usesCleartextTraffic="${usesCleartextTraffic}">
 
         <activity
             android:name=".activity.AppActivity"

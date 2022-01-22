@@ -8,4 +8,9 @@
     <string name="notification_user_liked" />
     <string name="google_play_unavailable" translatable="false">Google Api Unavailable</string>
     <string name="notification_new_post">%1$s создал новый пост: %2$s</string >
+
+    <string name="error_loading">Something went wrong. Try again later</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+
 </resources>

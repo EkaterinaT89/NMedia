@@ -81,7 +81,11 @@ class CardPostFragment : Fragment() {
                     }.show()
                 }
                 likes.setOnClickListener {
-                    viewModel.likeById(post.id)
+                    if(!post.likedByMe) {
+                        viewModel.likeById(post.id)
+                    } else {
+                        viewModel.disLikeById(post.id)
+                    }
                 }
                 share.setOnClickListener {
                     viewModel.shareById(post.id)
