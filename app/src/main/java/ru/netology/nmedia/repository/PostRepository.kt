@@ -8,9 +8,11 @@ interface PostRepository {
 
     fun likeById(id: Long)
 
+    fun disLikeById(id: Long)
+
     fun shareById(id: Long)
 
-    fun getAll(): LiveData<List<Post>>
+    fun getAll(): List<Post>
 
     fun removeById(id: Long)
 
