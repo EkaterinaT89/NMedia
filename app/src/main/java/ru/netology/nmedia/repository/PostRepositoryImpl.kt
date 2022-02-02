@@ -70,8 +70,7 @@ class PostRepositoryImpl : PostRepository {
         client.newCall(request)
             .enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string() ?: throw  RuntimeException("body is null")
-                    callback.onSuccess(gson.fromJson(body, typeToken.type))
+                    callback.onSuccess(id)
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
@@ -89,8 +88,7 @@ class PostRepositoryImpl : PostRepository {
         client.newCall(request)
             .enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string() ?: throw  RuntimeException("body is null")
-                    callback.onSuccess(gson.fromJson(body, typeToken.type))
+                    callback.onSuccess(id)
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
@@ -100,35 +98,18 @@ class PostRepositoryImpl : PostRepository {
     }
 
     override fun shareById(id: Long, callback: PostRepository.GetOneCallback) {
-        val request: Request = Request.Builder()
-            .post(gson.toJson(id).toRequestBody(jsonType))
-            .url("${BASE_URL}/api/posts/${id}/share")
-            .build()
 
-        client.newCall(request)
-            .enqueue(object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string() ?: throw  RuntimeException("body is null")
-                    callback.onSuccess(gson.fromJson(body, typeToken.type))
-                }
-
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(e)
-                }
-            })
     }
 
     override fun removeById(id: Long, callback: PostRepository.GetOneCallback) {
         val request: Request = Request.Builder()
-            .delete()
             .url("${BASE_URL}/api/slow/posts")
             .build()
 
         client.newCall(request)
             .enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string() ?: throw  RuntimeException("body is null")
-                    callback.onSuccess(gson.fromJson(body, typeToken.type))
+                    callback.onSuccess(id)
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
@@ -146,8 +127,7 @@ class PostRepositoryImpl : PostRepository {
         client.newCall(request)
             .enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string() ?: throw  RuntimeException("body is null")
-                    callback.onSuccess(gson.fromJson(body, typeToken.type))
+                    callback.onSuccess(post)
                 }
 
                 override fun onFailure(call: Call, e: IOException) {

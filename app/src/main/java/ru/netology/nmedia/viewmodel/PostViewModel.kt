@@ -97,16 +97,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun shareById(id: Long) {
         repository.shareById(id, object : PostRepository.GetOneCallback {
             override fun onSuccess(id: Long) {
-                _data.postValue(
-                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                        .map {
-                            it.copy(shareCount = it.shareCount + 1)
-                        })
-                )
+
             }
 
             override fun onError(e: Exception) {
-                _data.postValue(FeedModel(error = true))
+
             }
         })
     }
