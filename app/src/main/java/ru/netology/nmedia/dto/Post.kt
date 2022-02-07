@@ -2,6 +2,7 @@ package ru.netology.nmedia.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import ru.netology.nmedia.enum.AttachmentType
 
 
 @Parcelize
@@ -14,7 +15,9 @@ data class Post(
     var likesCount: Long = 0,
     val date: String,
     var shareCount: Long = 0,
-    var video: String? = null
+    var video: String? = null,
+    val authorAvatar: String = "",
+    var attachment: Attachment? = null
 
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -57,3 +60,11 @@ data class Post(
 }
 
 annotation class Parcelize
+
+data class Attachment(
+    val url: String,
+    val description: String?,
+    val type: AttachmentType,
+)
+
+
