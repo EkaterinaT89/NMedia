@@ -17,7 +17,7 @@
         android:layout_marginBottom="@dimen/indent"
         app:layout_constraintBottom_toBottomOf="@id/top_barrier"
         android:contentDescription="@string/description_post_author_avatar"
-        android:src="@drawable/ic_netology_logo_foreground" />
+        tools:src="@drawable/ic_netology_logo_foreground" />
 
     <TextView
         android:id="@+id/author_name"
@@ -113,12 +113,22 @@
         android:layout_margin="@dimen/indent"
         android:autoLink="web"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/video_barrier"
+        app:layout_constraintBottom_toTopOf="@id/attachments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_barrier"
-        app:layout_constraintVertical_bias="0.406"
         tools:text="@sample/posts.json/data/content" />
+
+    <ImageView
+        android:id="@+id/attachments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/indent_likes"
+        android:contentDescription="@string/attachments"
+        app:layout_constraintEnd_toEndOf="@+id/contentPost"
+        app:layout_constraintStart_toStartOf="@+id/contentPost"
+        app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
+        app:layout_constraintTop_toBottomOf="@id/contentPost" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/bottom_barrier"
@@ -127,7 +137,7 @@
         android:layout_marginTop="@dimen/indent"
         android:layout_marginBottom="@dimen/indent"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="contentPost, video_link" />
+        app:constraint_referenced_ids="contentPost, video_link, attachments" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likes"
