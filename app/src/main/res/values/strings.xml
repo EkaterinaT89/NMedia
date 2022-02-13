@@ -28,4 +28,5 @@
     <string name="notification_new_post">%1$s создал новый пост: %2$s</string >
     <string name="google_play_unavailable" translatable="false">Google Api Unavailable</string>
     <string name="attachments">Attachments</string>
+    <string name="try_again_server_error">ОБНОВИТЬ</string>
 </resources>

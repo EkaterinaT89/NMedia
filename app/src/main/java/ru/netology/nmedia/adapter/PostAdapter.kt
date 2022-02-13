@@ -114,7 +114,6 @@ class PostViewHolder(
                 }.show()
             }
 
-
             Glide.with(avatar)
                 .load("$url/avatars/${post.authorAvatar}")
                 .error(R.drawable.ic_error)

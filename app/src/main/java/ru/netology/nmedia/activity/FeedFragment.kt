@@ -99,6 +99,17 @@ class FeedFragment : Fragment() {
             }
         })
 
+        viewModel.data.observe(viewLifecycleOwner, { state ->
+            adapter.submitList(state.posts)
+            with (binding) {
+                serverErrorGroup.isVisible = state.serverError
+                serverErrorButton.setOnClickListener {
+                    viewModel.tryAgain()
+                    serverErrorGroup.visibility = View.GONE
+                }
+            }
+        })
+
         binding.retryButton.setOnClickListener {
             viewModel.loadPosts()
         }

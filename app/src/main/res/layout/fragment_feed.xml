@@ -7,6 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".activity.FeedFragment">
 
+    <ImageView
+        android:id="@+id/serverErrorTitle"
+        android:layout_width="@dimen/no_internet_width"
+        android:layout_height="@dimen/no_internet_height"
+        android:src="@drawable/no_internet"
+        android:text="@string/error_loading"
+        app:layout_constraintBottom_toTopOf="@+id/serverErrorButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/serverErrorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/try_again_server_error"
+        android:backgroundTint="@color/colorForNoInternetButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/serverErrorGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="serverErrorButton, serverErrorTitle" />
+
     <TextView
         android:id="@+id/retryTitle"
         android:layout_width="wrap_content"
@@ -31,6 +60,7 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/errorGroup"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="retryTitle,retryButton" />
