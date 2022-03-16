@@ -50,7 +50,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onLike(post: Post) {
-                if(!post.likedByMe) {
+                if (!post.likedByMe) {
                     viewModel.likeById(post.id)
                 } else {
                     viewModel.disLikeById(post.id)
@@ -58,7 +58,6 @@ class FeedFragment : Fragment() {
             }
 
             override fun onShare(post: Post) {
-                viewModel.shareById(post.id)
                 val intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, post.content)
@@ -73,7 +72,6 @@ class FeedFragment : Fragment() {
             }
 
             override fun onPlayVideo(post: Post) {
-                viewModel.video()
                 val videoIntent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
                 startActivity(videoIntent)
             }
@@ -90,18 +88,30 @@ class FeedFragment : Fragment() {
 
         binding.container.adapter = adapter
 
+        viewModel.dataState.observe(viewLifecycleOwner, { state ->
+            with(binding) {
+                progress.isVisible = state.loading
+                swiperefresh.isRefreshing = state.refreshing
+                if (state.error) {
+                    serverErrorGroup.isVisible = state.error
+                    serverErrorButton.setOnClickListener {
+                        viewModel.tryAgain()
+                        serverErrorGroup.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
         viewModel.data.observe(viewLifecycleOwner, { state ->
             adapter.submitList(state.posts)
-            with (binding) {
-                progress.isVisible = state.loading
-                errorGroup.isVisible = state.error
+            with(binding) {
                 emptyText.isVisible = state.empty
             }
         })
 
         viewModel.data.observe(viewLifecycleOwner, { state ->
             adapter.submitList(state.posts)
-            with (binding) {
+            with(binding) {
                 serverErrorGroup.isVisible = state.serverError
                 serverErrorButton.setOnClickListener {
                     viewModel.tryAgain()
@@ -119,7 +129,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.loadPosts()
+            viewModel.refreshPosts()
         }
 
         return binding.root

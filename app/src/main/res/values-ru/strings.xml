@@ -16,5 +16,7 @@
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
     <string name="attachments">Attachments</string>
     <string name="try_again_server_error">ОБНОВИТЬ</string>
+    <string name="no_network">Нет сети</string>
+    <string name="unknown_exception">Что-то пошло не так :(</string>
 
 </resources>

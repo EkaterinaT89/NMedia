@@ -29,4 +29,8 @@
     <string name="google_play_unavailable" translatable="false">Google Api Unavailable</string>
     <string name="attachments">Attachments</string>
     <string name="try_again_server_error">ОБНОВИТЬ</string>
+
+    <string name="no_network">Нет сети</string>
+    <string name="unknown_exception">Что-то пошло не так :(</string>
+
 </resources>
