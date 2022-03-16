@@ -21,7 +21,7 @@ import java.lang.RuntimeException
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
 
-    override val data = dao.getAll().map { it.toDto() }
+    override val data = dao.getAll().map(List<PostEntity>::toDto)
 
     override suspend fun getAll() {
         try {

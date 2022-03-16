@@ -25,6 +25,7 @@ private val emptyPost = Post(
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
+
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
 
@@ -72,6 +73,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+        edited.value = emptyPost
     }
 
     fun retrySave() {
@@ -83,7 +85,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             currentId = id
             lastAction = ActionType.LIKEBYID
             try {
-                _dataState.value = FeedModelState(loading = true)
                 repository.likeById(id)
                 _dataState.value = FeedModelState()
             } catch (e: Exception) {
@@ -103,7 +104,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             currentId = id
             lastAction = ActionType.DISLIKEBYID
             try {
-                _dataState.value = FeedModelState(loading = true)
                 repository.disLikeById(id)
                 _dataState.value = FeedModelState()
             } catch (e: Exception) {
@@ -127,7 +127,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             currentId = id
             lastAction = ActionType.REMOVEBYID
             try {
-                _dataState.value = FeedModelState(loading = true)
+                _dataState.value = FeedModelState()
                 repository.removeById(id)
                 _dataState.value = FeedModelState()
             } catch (e: Exception) {

@@ -49,7 +49,7 @@ data class PostEntity (
 }
 
 
-fun List<PostEntity>.toDto() = map { it.toDto() }
-fun List<Post>.toEntity() = map { PostEntity.fromDto(it) }
+fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
+fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)
 
 
