@@ -2,6 +2,7 @@ package ru.netology.nmedia.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import ru.netology.nmedia.enum.AttachmentType
 
 
@@ -12,7 +13,9 @@ data class Post(
     val author: String,
     val content: String,
     var likedByMe: Boolean,
+    @SerializedName("likes")
     var likesCount: Long = 0,
+    @SerializedName("published")
     val date: String,
     var shareCount: Long = 0,
     var video: String? = null,
