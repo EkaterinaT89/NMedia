@@ -12,4 +12,6 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="colorForNoInternetButton">#38C1D6</color>
+
 </resources>

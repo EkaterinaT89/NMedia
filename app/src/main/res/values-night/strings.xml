@@ -3,4 +3,18 @@
     <string name="remove">Remove</string>
     <string name="Text_for_hint">Вы ничего не ввели!</string>
     <string name="Edit_post_cancel_edit">Редактирование поста</string>
+    <string name="channel_remote_name" />
+    <string name="channel_remote_description" />
+    <string name="notification_user_liked" />
+    <string name="google_play_unavailable" translatable="false">Google Api Unavailable</string>
+    <string name="notification_new_post">%1$s создал новый пост: %2$s</string >
+
+    <string name="error_loading">Something went wrong. Try again later</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="attachments">Attachments</string>
+    <string name="try_again_server_error">ОБНОВИТЬ</string>
+    <string name="no_network">Нет сети</string>
+    <string name="unknown_exception">Что-то пошло не так :(</string>
+
 </resources>

@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.CardPostFragment.Companion.showPost
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
@@ -48,11 +50,14 @@ class FeedFragment : Fragment() {
             }
 
             override fun onLike(post: Post) {
-                viewModel.likeById(post.id)
+                if (!post.likedByMe) {
+                    viewModel.likeById(post.id)
+                } else {
+                    viewModel.disLikeById(post.id)
+                }
             }
 
             override fun onShare(post: Post) {
-                viewModel.shareById(post.id)
                 val intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, post.content)
@@ -67,7 +72,6 @@ class FeedFragment : Fragment() {
             }
 
             override fun onPlayVideo(post: Post) {
-                viewModel.video()
                 val videoIntent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
                 startActivity(videoIntent)
             }
@@ -84,12 +88,37 @@ class FeedFragment : Fragment() {
 
         binding.container.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
+        viewModel.dataState.observe(viewLifecycleOwner, { state ->
+            with(binding) {
+                progress.isVisible = state.loading
+                swiperefresh.isRefreshing = state.refreshing
+                if (state.error) {
+                    serverErrorGroup.isVisible = state.error
+                    serverErrorButton.setOnClickListener {
+                        viewModel.tryAgain()
+                        serverErrorGroup.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
+        viewModel.data.observe(viewLifecycleOwner, { state ->
+            adapter.submitList(state.posts)
+            with(binding) {
+                emptyText.isVisible = state.empty
+            }
+        })
+
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
         }
 
         binding.okButton.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+        }
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
         }
 
         return binding.root
