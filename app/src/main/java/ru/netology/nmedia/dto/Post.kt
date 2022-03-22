@@ -13,14 +13,18 @@ data class Post(
     val author: String,
     val content: String,
     var likedByMe: Boolean,
+
     @SerializedName("likes")
     var likesCount: Long = 0,
+
     @SerializedName("published")
     val date: String,
+
     var shareCount: Long = 0,
     var video: String? = null,
     val authorAvatar: String = "",
-    var attachment: Attachment? = null
+    var attachment: Attachment? = null,
+    var show: Boolean
 
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -31,7 +35,8 @@ data class Post(
         parcel.readLong(),
         parcel.readString().toString(),
         parcel.readLong(),
-        parcel.readString()
+        parcel.readString(),
+        show = parcel.readByte() != 0.toByte()
     ) {
     }
 

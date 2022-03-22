@@ -5,7 +5,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/feedFragment"
     tools:context=".activity.FeedFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/get_new_posts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/new_posts"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:icon="@drawable/ic_baseline_north_24"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/teal_200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_nav" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:scrollbars="none"
+        app:tabIconTint="@color/teal_200"
+        app:tabTextColor="@color/grey"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:tabSelectedTextColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:icon="@drawable/ic_outline_photo_camera_24"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/news"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/interested"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:icon="@drawable/ic_baseline_notifications_outline_24"/>
+
+</com.google.android.material.tabs.TabLayout>
 
     <ImageView
         android:id="@+id/serverErrorTitle"
@@ -22,12 +73,12 @@
         android:id="@+id/serverErrorButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/try_again_server_error"
         android:backgroundTint="@color/colorForNoInternetButton"
+        android:text="@string/try_again_server_error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/serverErrorGroup"
@@ -60,9 +111,9 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/errorGroup"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="retryTitle,retryButton" />
 
     <TextView
@@ -92,26 +143,27 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/indent"
         android:contentDescription="@string/add_post"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"
         app:srcCompat="@drawable/add" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
+        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/fragment_card_post" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_nav"
+            tools:listitem="@layout/fragment_card_post" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

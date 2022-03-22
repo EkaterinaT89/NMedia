@@ -6,11 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
+import android.widget.TableLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.CardPostFragment.Companion.showPost
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
@@ -121,11 +128,53 @@ class FeedFragment : Fragment() {
             viewModel.refreshPosts()
         }
 
-        return binding.root
+        with(binding) {
+            viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+                if (state > 0) {
+                    topNav.getTabAt(3)?.orCreateBadge?.number = state
+                    getNewPosts.visibility = View.VISIBLE
+                }
+            }
 
+            getNewPosts.setOnClickListener {
+                getNewPosts.visibility = View.GONE
+                viewModel.getUnreadPosts()
+            }
+
+            topNav.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    if (tab.position == 0) {
+
+                    }
+                    if (tab.position == 1) {
+                        findNavController().navigate(R.id.feedFragment)
+                    }
+
+                    if (tab.position == 2) {
+
+                    }
+
+                    if (tab.position == 3) {
+
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+
+                }
+            })
+
+        }
+
+        return binding.root
     }
 
 }
+
 
 
 

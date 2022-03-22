@@ -15,7 +15,8 @@ data class PostEntity (
     var likesCount: Long,
     val date: String,
     var shareCount: Long,
-    var video: String? = null
+    var video: String? = null,
+    var show: Boolean
 ) {
 
     fun toDto(): Post = with(this) {
@@ -27,7 +28,8 @@ data class PostEntity (
             likesCount = likesCount,
             likedByMe = likedByMe,
             shareCount = shareCount,
-            video = video
+            video = video,
+            show = show
             )
     }
 
@@ -41,7 +43,8 @@ data class PostEntity (
                 likesCount = likesCount,
                 likedByMe = likedByMe,
                 shareCount = shareCount,
-                video = video
+                video = video,
+                show = show
             )
         }
     }

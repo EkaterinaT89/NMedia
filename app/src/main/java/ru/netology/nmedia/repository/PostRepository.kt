@@ -2,11 +2,16 @@ package ru.netology.nmedia.repository
 
 import android.view.View
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import ru.netology.nmedia.api.PostsApi
 import ru.netology.nmedia.dto.Post
 
 interface PostRepository {
 
-    val data: LiveData<List<Post>>
+    val data: Flow<List<Post>>
+
+    fun getNewerCount(id: Long): Flow<Int>
 
     suspend fun likeById(id: Long)
 
@@ -21,5 +26,7 @@ interface PostRepository {
     fun video()
 
     suspend fun getAll()
+
+    suspend fun getUnreadPosts()
 
 }

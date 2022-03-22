@@ -1,11 +1,8 @@
 package ru.netology.nmedia.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import ru.netology.nmedia.PostService.post
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.api.PostsApi
 import ru.netology.nmedia.dao.PostDao
@@ -17,11 +14,14 @@ import ru.netology.nmedia.exception.NetWorkException
 import ru.netology.nmedia.exception.UnknownException
 import java.io.IOException
 import java.lang.Exception
-import java.lang.RuntimeException
+import androidx.lifecycle.*
+import ru.netology.nmedia.exception.AppError
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
 
-    override val data = dao.getAll().map(List<PostEntity>::toDto)
+    override val data = dao.getAll()
+        .map(List<PostEntity>::toDto)
+        .flowOn(Dispatchers.Default)
 
     override suspend fun getAll() {
         try {
@@ -37,6 +37,21 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             throw UnknownException
         }
     }
+
+    override fun getNewerCount(id: Long): Flow<Int> = flow {
+        while(true) {
+            delay(10_000L)
+            val response = PostsApi.retrofitService.getNewer(id)
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiException(response.code(), response.message())
+            dao.insert(body.toEntity())
+            emit(body.size)
+        }
+    }
+        .catch { e -> throw AppError.from(e) }
+        .flowOn(Dispatchers.Default)
 
     override suspend fun likeById(id: Long) {
         try {
@@ -101,5 +116,21 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     }
 
     override fun video() {}
+
+    override suspend fun getUnreadPosts() {
+        try {
+            val response = PostsApi.retrofitService.getAll()
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiException(response.code(), response.message())
+            dao.insert(body.toEntity())
+            dao.getUnreadPosts()
+        } catch (e: IOException) {
+            throw NetWorkException
+        } catch (e: Exception) {
+            throw UnknownException
+        }
+    }
 
 }

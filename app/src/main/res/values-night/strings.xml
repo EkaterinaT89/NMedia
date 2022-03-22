@@ -16,5 +16,8 @@
     <string name="try_again_server_error">ОБНОВИТЬ</string>
     <string name="no_network">Нет сети</string>
     <string name="unknown_exception">Что-то пошло не так :(</string>
+    <string name="news">Новости</string>
+    <string name="interested">Интересное</string>
+    <string name="new_posts">Свежие записи</string>
 
 </resources>
