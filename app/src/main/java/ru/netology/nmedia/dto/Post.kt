@@ -3,7 +3,7 @@ package ru.netology.nmedia.dto
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import ru.netology.nmedia.enum.AttachmentType
+import ru.netology.nmedia.enums.AttachmentType
 
 
 @Parcelize
@@ -22,9 +22,9 @@ data class Post(
 
     var shareCount: Long = 0,
     var video: String? = null,
-    val authorAvatar: String = "",
+    val authorAvatar: String,
     var attachment: Attachment? = null,
-    var show: Boolean
+//    var show: Boolean
 
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -36,7 +36,8 @@ data class Post(
         parcel.readString().toString(),
         parcel.readLong(),
         parcel.readString(),
-        show = parcel.readByte() != 0.toByte()
+        parcel.readString().toString()
+//        show = parcel.readByte() != 0.toByte()
     ) {
     }
 
@@ -71,8 +72,7 @@ annotation class Parcelize
 
 data class Attachment(
     val url: String,
-    val description: String?,
-    val type: AttachmentType,
+    val type: AttachmentType
 )
 
 

@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.netology.nmedia.api.PostsApi
+import ru.netology.nmedia.dto.Media
+import ru.netology.nmedia.dto.MediaUpload
 import ru.netology.nmedia.dto.Post
 
 interface PostRepository {
@@ -28,5 +30,9 @@ interface PostRepository {
     suspend fun getAll()
 
     suspend fun getUnreadPosts()
+
+    suspend fun saveWithAttachment(post: Post, upload: MediaUpload)
+
+    suspend fun upload(upload: MediaUpload): Media
 
 }

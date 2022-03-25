@@ -25,6 +25,7 @@ interface OnInteractionListener {
     fun onShare(post: Post)
     fun onPlayVideo(post: Post)
     fun onSinglePost(post: Post)
+    fun onFullScreenImage(post: Post) {}
 }
 
 class PostAdapter(private val onInteractionListener: OnInteractionListener) :
@@ -121,6 +122,10 @@ class PostViewHolder(
                 .circleCrop()
                 .timeout(10_000)
                 .into(avatar)
+
+            attachments.setOnClickListener {
+                onInteractionListener.onFullScreenImage(post)
+            }
 
         }
     }

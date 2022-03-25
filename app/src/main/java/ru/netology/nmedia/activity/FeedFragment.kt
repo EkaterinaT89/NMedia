@@ -91,6 +91,10 @@ class FeedFragment : Fragment() {
                         showPost = post
                     })
             }
+
+            override fun onFullScreenImage(post: Post) {
+                findNavController().navigate(R.id.imageFragment)
+            }
         })
 
         binding.container.adapter = adapter

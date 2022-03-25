@@ -42,4 +42,11 @@
         </service>
     </application>
 
+    <queries>
+        <!-- Camera: https://github.com/Dhaval2404/ImagePicker/issues/143 -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
 </manifest>

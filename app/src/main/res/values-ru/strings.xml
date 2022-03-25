@@ -21,5 +21,9 @@
     <string name="news">Новости</string>
     <string name="interested">Интересное</string>
     <string name="new_posts">Свежие записи</string>
+    <string name="description_select_photo">description_select_photo</string>
+    <string name="description_take_photo">description_take_photo</string>
+    <string name="description_photo">description_photo</string>
+    <string name="menu_save">Save</string>
 
 </resources>

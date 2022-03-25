@@ -15,6 +15,12 @@ import ru.netology.nmedia.exception.UnknownException
 import java.io.IOException
 import java.lang.Exception
 import androidx.lifecycle.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import ru.netology.nmedia.dto.Attachment
+import ru.netology.nmedia.dto.Media
+import ru.netology.nmedia.dto.MediaUpload
+import ru.netology.nmedia.enums.AttachmentType
 import ru.netology.nmedia.exception.AppError
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
@@ -94,6 +100,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         } catch (e: IOException) {
             throw NetWorkException
         } catch (e: Exception) {
+
             throw UnknownException
         }
     }
@@ -115,6 +122,39 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
+    override suspend fun saveWithAttachment(post: Post, upload: MediaUpload) {
+        try {
+            val media = upload(upload)
+            val postWithAttachment = post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
+            save(postWithAttachment)
+        } catch (e: AppError) {
+            throw e
+        }  catch (e: IOException) {
+            throw NetWorkException
+        } catch (e: Exception) {
+            throw UnknownException
+        }
+    }
+
+    override suspend fun upload(upload: MediaUpload): Media {
+        try {
+            val media = MultipartBody.Part.createFormData(
+                "file", upload.file.name, upload.file.asRequestBody()
+            )
+
+            val response = PostsApi.retrofitService.upload(media)
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
+            }
+
+            return response.body() ?: throw ApiException(response.code(), response.message())
+        } catch (e: IOException) {
+            throw NetWorkException
+        } catch (e: Exception) {
+            throw UnknownException
+        }
+    }
+
     override fun video() {}
 
     override suspend fun getUnreadPosts() {
@@ -125,7 +165,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
             val body = response.body() ?: throw ApiException(response.code(), response.message())
             dao.insert(body.toEntity())
-            dao.getUnreadPosts()
+//            dao.getUnreadPosts()
         } catch (e: IOException) {
             throw NetWorkException
         } catch (e: Exception) {
