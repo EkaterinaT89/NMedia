@@ -29,4 +29,6 @@ interface PostRepository {
 
     suspend fun getUnreadPosts()
 
+    suspend fun makePostReaded()
+
 }

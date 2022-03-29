@@ -118,19 +118,10 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     override fun video() {}
 
     override suspend fun getUnreadPosts() {
-        try {
-            val response = PostsApi.retrofitService.getAll()
-            if (!response.isSuccessful) {
-                throw ApiException(response.code(), response.message())
-            }
-            val body = response.body() ?: throw ApiException(response.code(), response.message())
-            dao.insert(body.toEntity())
             dao.getUnreadPosts()
-        } catch (e: IOException) {
-            throw NetWorkException
-        } catch (e: Exception) {
-            throw UnknownException
-        }
     }
 
+    override suspend fun makePostReaded() {
+            dao.makePostReaded()
+    }
 }

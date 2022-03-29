@@ -129,6 +129,7 @@ class FeedFragment : Fragment() {
         }
 
         with(binding) {
+
             viewModel.newerCount.observe(viewLifecycleOwner) { state ->
                 if (state > 0) {
                     topNav.getTabAt(3)?.orCreateBadge?.number = state
@@ -139,6 +140,7 @@ class FeedFragment : Fragment() {
             getNewPosts.setOnClickListener {
                 getNewPosts.visibility = View.GONE
                 viewModel.getUnreadPosts()
+                viewModel.makePostReaded()
             }
 
             topNav.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

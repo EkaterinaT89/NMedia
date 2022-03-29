@@ -23,19 +23,25 @@ data class Post(
     var shareCount: Long = 0,
     var video: String? = null,
     val authorAvatar: String = "",
-    var attachment: Attachment? = null,
+//    var attachment: Attachment? = null,
     var show: Boolean
 
-): Parcelable {
+) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readByte() != 0.toByte(),
-        parcel.readLong(),
-        parcel.readString().toString(),
-        parcel.readLong(),
-        parcel.readString(),
+        id = parcel.readLong(),
+        author = parcel.readString().toString(),
+//        parcel.readLong(),
+        content = parcel.readString().toString(),
+        likedByMe = parcel.readByte() != 0.toByte(),
+        likesCount = parcel.readLong(),
+        date = parcel.readString().toString(),
+        shareCount = parcel.readLong(),
+//        parcel.readByte() != 0.toByte(),
+        video = parcel.readString(),
+        authorAvatar = parcel.readString().toString(),
+//      parcel.readLong(),
+//        parcel.readString(),
+//        parcel.readString().toString(),
         show = parcel.readByte() != 0.toByte()
     ) {
     }
@@ -71,8 +77,7 @@ annotation class Parcelize
 
 data class Attachment(
     val url: String,
-    val description: String?,
-    val type: AttachmentType,
+    val type: AttachmentType
 )
 
 

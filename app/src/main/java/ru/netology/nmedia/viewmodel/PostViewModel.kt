@@ -207,12 +207,22 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+    fun makePostReaded() =
+        viewModelScope.launch {
+            try {
+                _dataState.value = FeedModelState(loading = true)
+                repository.makePostReaded()
+                _dataState.value = FeedModelState()
+            } catch (e: Exception) {
+                _dataState.value = FeedModelState(error = true)
+            }
+        }
 }
 
-enum class ActionType {
-    LIKEBYID,
-    DISLIKEBYID,
-    SAVE,
-    REMOVEBYID,
-    LOADPOSTS
-}
+    enum class ActionType {
+        LIKEBYID,
+        DISLIKEBYID,
+        SAVE,
+        REMOVEBYID,
+        LOADPOSTS
+    }
