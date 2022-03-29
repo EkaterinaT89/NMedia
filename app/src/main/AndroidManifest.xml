@@ -3,13 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.netology.nmedia">
 
+    <uses-permission android:name="adroid.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NMedia">
+        android:theme="@style/Theme.NMedia"
+        android:name=".application.NMediaApplication"
+        android:usesCleartextTraffic="${usesCleartextTraffic}">
 
         <activity
             android:name=".activity.AppActivity"
@@ -30,6 +35,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".service.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
+
+    <queries>
+        <!-- Camera: https://github.com/Dhaval2404/ImagePicker/issues/143 -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 
 </manifest>
