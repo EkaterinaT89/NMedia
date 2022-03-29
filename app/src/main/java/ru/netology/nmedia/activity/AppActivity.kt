@@ -1,16 +1,24 @@
 package ru.netology.nmedia.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
+import ru.netology.nmedia.auth.AppAuth
+import ru.netology.nmedia.viewmodel.AuthViewModel
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +42,50 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 )
 
         }
+
+        viewModel.data.observe(this) {
+            invalidateOptionsMenu()
+        }
+
         checkGoogleAvailability()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_auth, menu)
+
+        menu.let {
+            it.setGroupVisible(R.id.unauthenticated, !viewModel.authenticated)
+            it.setGroupVisible(R.id.authenticated, viewModel.authenticated)
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.signin -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.signInFragment)
+                true
+            }
+            R.id.signup -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.signUpFragment)
+                true
+            }
+            R.id.signout -> {
+                AlertDialog.Builder(this).setMessage("Уверены?")
+                    .setPositiveButton("Выйти"
+                    ) { dialogInterface, i ->
+                        AppAuth.getInstance().removeAuth()
+                        findNavController(R.id.nav_host_fragment).navigateUp()
+                    }
+                    .setNegativeButton("Остаться"
+                    ) { dialogInterface, i ->
+                        return@setNegativeButton
+                    }
+                    .show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun checkGoogleAvailability() {

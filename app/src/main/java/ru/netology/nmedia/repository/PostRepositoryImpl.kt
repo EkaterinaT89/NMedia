@@ -17,6 +17,9 @@ import java.lang.Exception
 import androidx.lifecycle.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import ru.netology.nmedia.auth.AppAuth
+import ru.netology.nmedia.auth.AppAuth.Companion.getInstance
+import ru.netology.nmedia.auth.AuthState
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.MediaUpload
@@ -166,6 +169,39 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             val body = response.body() ?: throw ApiException(response.code(), response.message())
             dao.insert(body.toEntity())
 //            dao.getUnreadPosts()
+        } catch (e: IOException) {
+            throw NetWorkException
+        } catch (e: Exception) {
+            throw UnknownException
+        }
+    }
+
+    override suspend fun signIn(login: String, pass: String) {
+        try {
+            val response = PostsApi.retrofitService.updateUser(login, pass)
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
+            }
+           val authState = response.body() ?: throw ApiException(response.code(), response.message())
+            authState.token?.let { getInstance().setAuth(authState.id, it) }
+
+        } catch (e: IOException) {
+            throw NetWorkException
+        } catch (e: Exception) {
+            throw UnknownException
+        }
+        return
+    }
+
+    override suspend fun signUp(name: String, login: String, pass: String) {
+        try {
+            val response = PostsApi.retrofitService.registerUser(name, login, pass)
+            if (!response.isSuccessful) {
+                throw ApiException(response.code(), response.message())
+            }
+            val authState = response.body() ?: throw ApiException(response.code(), response.message())
+            authState.token?.let { getInstance().setAuth(authState.id, it) }
+
         } catch (e: IOException) {
             throw NetWorkException
         } catch (e: Exception) {

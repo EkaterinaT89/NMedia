@@ -17,6 +17,7 @@ import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.PostArg
+import ru.netology.nmedia.viewmodel.AuthViewModel
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class CardPostFragment : Fragment() {
@@ -82,7 +83,7 @@ class CardPostFragment : Fragment() {
                     }.show()
                 }
                 likes.setOnClickListener {
-                    if(!post.likedByMe) {
+                    if (!post.likedByMe) {
                         viewModel.likeById(post.id)
                     } else {
                         viewModel.disLikeById(post.id)

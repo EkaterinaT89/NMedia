@@ -11,6 +11,7 @@ import ru.netology.nmedia.enums.AttachmentType
 data class Post(
     val id: Long,
     val author: String,
+    val authorId: Long,
     val content: String,
     var likedByMe: Boolean,
 
@@ -20,6 +21,7 @@ data class Post(
     @SerializedName("published")
     val date: String,
 
+    val ownedByMe: Boolean = false,
     var shareCount: Long = 0,
     var video: String? = null,
     val authorAvatar: String,
@@ -30,10 +32,12 @@ data class Post(
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString().toString(),
+        parcel.readLong(),
         parcel.readString().toString(),
         parcel.readByte() != 0.toByte(),
         parcel.readLong(),
         parcel.readString().toString(),
+        parcel.readByte() != 0.toByte(),
         parcel.readLong(),
         parcel.readString(),
         parcel.readString().toString()

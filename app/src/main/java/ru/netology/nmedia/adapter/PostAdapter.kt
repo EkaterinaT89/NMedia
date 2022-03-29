@@ -96,9 +96,12 @@ class PostViewHolder(
                 onInteractionListener.onSinglePost(post)
             }
 
+            menuButton.visibility = if (post.ownedByMe) View.VISIBLE else View.INVISIBLE
+
             menuButton.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.post_menu)
+                    menu.setGroupVisible(R.id.owned, post.ownedByMe)
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.remove -> {

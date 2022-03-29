@@ -23,5 +23,9 @@
     <string name="description_take_photo">description_take_photo</string>
     <string name="description_photo">description_photo</string>
     <string name="menu_save">Save</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="sign_out">Выйти</string>
+    <string name="cancel">Отменить</string>
 
 </resources>
