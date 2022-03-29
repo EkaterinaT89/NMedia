@@ -28,4 +28,6 @@
     <string name="sign_out">Выйти</string>
     <string name="cancel">Отменить</string>
 
+    <string name="notification_user">Пользователь %1$s получил привет %2$s</string>
+
 </resources>

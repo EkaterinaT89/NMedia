@@ -5,6 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.provider.Settings
+import android.provider.Settings.Global.getString
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -12,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import ru.netology.nmedia.R
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.exception.ActionNotFoundException
 import kotlin.random.Random
@@ -37,28 +40,17 @@ class FCMService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        val actionKey = message.data[DATA_ACTION_KEY] ?: return
-        val action = Action.values().single { it.key == actionKey }
-        try {
-            when (action) {
-                Action.Like -> {
-                    val content = message.data[DATA_CONTENT_KEY]
-                    val like = gson.fromJson(content, Like::class.java)
-                    handleLike(like)
-                }
-                Action.NewPost -> {
-                    val content = message.data[DATA_CONTENT_KEY]
-                    val newPost = gson.fromJson(content, Post::class.java)
-                    handleNewPost(newPost)
-                }
-            }
-        } catch (e: ActionNotFoundException) {
-            println("Уведомления для такого действия не предусмотрены.")
+        val id = AppAuth.getInstance().authStateFlow.value.id
+        val recipientId = message.data["recipientId"]?.toLong()
+        when (recipientId) {
+            0L -> AppAuth.getInstance().sendPushToken()
+            id, null -> handleMessage(gson.fromJson(message.data[content], PushMessage::class.java))
+            else -> AppAuth.getInstance().sendPushToken()
         }
     }
 
     override fun onNewToken(token: String) {
-        Log.d("FCMService", "FCM token $token")
+        AppAuth.getInstance().sendPushToken(token)
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -100,11 +92,30 @@ class FCMService : FirebaseMessagingService() {
             .notify(Random.nextInt(100_000), notification)
     }
 
+    private fun handleMessage(content: PushMessage) {
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(
+                getString(
+                    R.string.notification_user,
+                    content.recipientId.toString(),
+                    content.content,
+                )
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        NotificationManagerCompat.from(this)
+            .notify(Random.nextInt(100_000), notification)
+    }
+
     companion object {
         private const val DATA_ACTION_KEY = "action"
         private const val DATA_CONTENT_KEY = "content"
     }
 }
+
+
 
 enum class Action(
     val key: String
@@ -121,3 +132,8 @@ data class Like(
 ) {
 
 }
+
+data class PushMessage(
+    val recipientId: Long?,
+    val content: String
+)
