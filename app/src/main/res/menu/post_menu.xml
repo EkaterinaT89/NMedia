@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/remove" android:title="@string/remove" />
-    <item android:id="@+id/edit" android:title="@string/edit" />
+    <group android:id="@+id/owned">
+    <item
+        android:id="@+id/remove"
+        android:title="@string/remove" />
+    <item
+        android:id="@+id/edit"
+        android:title="@string/edit" />
+    </group>
 </menu>

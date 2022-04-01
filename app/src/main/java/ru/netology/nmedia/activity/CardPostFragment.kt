@@ -10,14 +10,18 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.PostService
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.PostArg
+import ru.netology.nmedia.viewmodel.AuthViewModel
 import ru.netology.nmedia.viewmodel.PostViewModel
 
+@AndroidEntryPoint
 class CardPostFragment : Fragment() {
 
     companion object {
@@ -81,7 +85,11 @@ class CardPostFragment : Fragment() {
                     }.show()
                 }
                 likes.setOnClickListener {
-                    viewModel.likeById(post.id)
+                    if (!post.likedByMe) {
+                        viewModel.likeById(post.id)
+                    } else {
+                        viewModel.disLikeById(post.id)
+                    }
                 }
                 share.setOnClickListener {
                     viewModel.shareById(post.id)
@@ -103,6 +111,7 @@ class CardPostFragment : Fragment() {
 
             }
         }
+
         return binding.root
     }
 
