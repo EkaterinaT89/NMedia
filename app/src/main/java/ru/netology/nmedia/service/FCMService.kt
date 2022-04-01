@@ -13,17 +13,21 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.R
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.exception.ActionNotFoundException
+import javax.inject.Inject
 import kotlin.random.Random
 
-class FCMService : FirebaseMessagingService() {
+class FCMService: FirebaseMessagingService() {
     private val action = "action"
     private val content = "content"
     private val channelId = "remote"
     private val gson = Gson()
+    @Inject
+    lateinit var auth: AppAuth
 
     override fun onCreate() {
         super.onCreate()
@@ -40,17 +44,17 @@ class FCMService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        val id = AppAuth.getInstance().authStateFlow.value.id
+        val id = auth.authStateFlow.value.id
         val recipientId = message.data["recipientId"]?.toLong()
         when (recipientId) {
-            0L -> AppAuth.getInstance().sendPushToken()
+            0L -> auth.sendPushToken()
             id, null -> handleMessage(gson.fromJson(message.data[content], PushMessage::class.java))
-            else -> AppAuth.getInstance().sendPushToken()
+            else -> auth.sendPushToken()
         }
     }
 
     override fun onNewToken(token: String) {
-        AppAuth.getInstance().sendPushToken(token)
+        auth.sendPushToken(token)
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -114,8 +118,6 @@ class FCMService : FirebaseMessagingService() {
         private const val DATA_CONTENT_KEY = "content"
     }
 }
-
-
 
 enum class Action(
     val key: String

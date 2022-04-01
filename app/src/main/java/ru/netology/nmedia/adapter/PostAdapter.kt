@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.PostService
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.CardPostFragment.Companion.showPost
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.service.loadCircleCrop
 import ru.netology.nmedia.util.PostArg
 
 
@@ -56,6 +58,7 @@ class PostViewHolder(
             authorName.text = post.author
             date.text = post.date
             contentPost.text = post.content
+            avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
             likes.text = PostService.countPresents(post.likesCount)
             share.text = PostService.countPresents(post.shareCount)
             videoLink.text = post.video
