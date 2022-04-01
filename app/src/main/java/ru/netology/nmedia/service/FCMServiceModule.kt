@@ -2,6 +2,7 @@ package ru.netology.nmedia.service
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import dagger.Binds
 import dagger.Module
@@ -16,9 +17,8 @@ import javax.inject.Singleton
 @Module
 class FCMServiceModule {
 
+    @Singleton
     @Provides
-    fun provideFCMService(): FirebaseMessagingService {
-        return FirebaseMessagingService()
-    }
+    fun provideFCMService(): FirebaseMessaging = FirebaseMessaging.getInstance()
 
 }
