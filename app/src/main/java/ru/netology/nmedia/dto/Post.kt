@@ -23,7 +23,7 @@ data class Post(
     var shareCount: Long = 0,
     var video: String? = null,
     val authorAvatar: String = "",
-//    var attachment: Attachment? = null,
+    var attachment: Attachment? = null,
     var show: Boolean
 
 ) : Parcelable {
@@ -75,9 +75,5 @@ data class Post(
 
 annotation class Parcelize
 
-data class Attachment(
-    val url: String,
-    val type: AttachmentType
-)
 
 

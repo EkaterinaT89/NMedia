@@ -20,7 +20,8 @@ data class PostEntity(
     var shareCount: Long,
     var video: String? = null,
     val authorAvatar: String,
-//    var attachment: Attachment?,
+    @Embedded
+    var attachment: AttachmentEmbeddable?,
     var show: Boolean
 ) {
 
@@ -34,7 +35,7 @@ data class PostEntity(
         shareCount,
         video,
         authorAvatar,
-//        attachment,
+        attachment?.toDto(),
         show
     )
 
@@ -50,7 +51,7 @@ data class PostEntity(
                 dto.shareCount,
                 dto.video,
                 dto.authorAvatar,
-//                dto.attachment,
+                AttachmentEmbeddable.fromDto(dto.attachment),
                 dto.show
             )
     }
@@ -61,10 +62,10 @@ fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
 fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)
 
 data class AttachmentEmbeddable(
-    var url: String,
-    var type: AttachmentType
+    var url: String? = null,
+    var type: AttachmentType? = null
 ) {
-    fun toDto() = Attachment(url, type)
+    fun toDto() = type?.let { url?.let { it1 -> Attachment(it1, it) } }
 
     companion object {
         fun fromDto(dto: Attachment?) = dto?.let {

@@ -66,18 +66,18 @@ class PostViewHolder(
                 groupForVideo.visibility = View.GONE
             }
 
-//            if(post.attachment == null){
-//                attachments.visibility = View.GONE
-//            } else {
-//                attachments.visibility = View.VISIBLE
-//
-//                Glide.with(attachments)
-//                    .load("$url/images/${post.attachment?.url}")
-//                    .error(R.drawable.ic_error)
-//                    .placeholder(R.drawable.ic_loading_avatar)
-//                    .timeout(10_000)
-//                    .into(attachments)
-//            }
+            if(post.attachment == null){
+                attachments.visibility = View.GONE
+            } else {
+                attachments.visibility = View.VISIBLE
+
+                Glide.with(attachments)
+                    .load("$url/images/${post.attachment?.url}")
+                    .error(R.drawable.ic_error)
+                    .placeholder(R.drawable.ic_loading_avatar)
+                    .timeout(10_000)
+                    .into(attachments)
+            }
 
             likes.setOnClickListener {
                 onInteractionListener.onLike(post)
