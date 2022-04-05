@@ -1,54 +1,38 @@
 package ru.netology.nmedia.dao
 
-import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import ru.netology.nmedia.entity.PostEntity
+import ru.netology.nmedia.enums.AttachmentType
 
 @Dao
 interface PostDao {
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
-    fun getAll(): LiveData<List<PostEntity>>
+    fun getAll(): Flow<List<PostEntity>>
 
-    @Insert
-    fun insert(post: PostEntity)
+//    @Query("SELECT * FROM PostEntity WHERE show = 0")
+//    suspend fun getUnreadPosts()
 
-    @Query("UPDATE PostEntity SET content = :content WHERE id = :id")
-    fun updateContentById(id: Long, content: String)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(post: PostEntity)
 
-    @Query(
-        """
-                UPDATE PostEntity SET
-                    likesCount = likesCount + CASE WHEN likedByMe THEN -1 ELSE 1 END,
-                    likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
-                WHERE id = :id
-                """)
-    fun likeById(id: Long)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(posts: List<PostEntity>)
 
-    @Query(
-        """
-                UPDATE PostEntity SET
-                  shareCount = shareCount + CASE WHEN shareCount THEN -1 ELSE 1 END
-                WHERE id = :id
-                """
-    )
-    fun shareById(id: Long)
+    @Query("SELECT COUNT(*) == 0 FROM PostEntity")
+    suspend fun isEmpty(): Boolean
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
-    fun removeById(id: Long)
+    suspend fun removeById(id: Long)
 
-    fun save(post: PostEntity) {
-        if (post.id == 0L) {
-            insert(post)
-        } else {
-            updateContentById(
-                id = post.id,
-                content = post.content
-            )
-        }
-    }
+    @Query("SELECT COUNT(*) FROM PostEntity")
+    suspend fun count(): Int
 
-    fun video(){ }
+}
 
+class Converters {
+    @TypeConverter
+    fun toAttachmentType(value: String) = enumValueOf<AttachmentType>(value)
+    @TypeConverter
+    fun fromAttachmentType(value: AttachmentType) = value.name
 }
