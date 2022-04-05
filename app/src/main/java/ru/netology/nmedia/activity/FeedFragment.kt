@@ -93,7 +93,9 @@ class FeedFragment : Fragment() {
             }
 
             override fun onFullScreenImage(post: Post) {
-                findNavController().navigate(R.id.imageFragment)
+                findNavController().navigate(R.id.imageFragment, Bundle().apply {
+                    textArg = post.attachment?.url
+                })
             }
         })
 

@@ -73,7 +73,7 @@ class PostViewHolder(
                 attachments.visibility = View.VISIBLE
 
                 Glide.with(attachments)
-                    .load("$url/images/${post.attachment?.url}")
+                    .load("$url/media/${post.attachment?.url}")
                     .error(R.drawable.ic_error)
                     .placeholder(R.drawable.ic_loading_avatar)
                     .timeout(10_000)
