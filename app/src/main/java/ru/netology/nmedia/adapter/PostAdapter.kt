@@ -5,15 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.PostService
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.CardPostFragment.Companion.showPost
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.service.loadCircleCrop
 import ru.netology.nmedia.util.PostArg
 
 
@@ -24,10 +28,11 @@ interface OnInteractionListener {
     fun onShare(post: Post)
     fun onPlayVideo(post: Post)
     fun onSinglePost(post: Post)
+    fun onFullScreenImage(post: Post) {}
 }
 
 class PostAdapter(private val onInteractionListener: OnInteractionListener) :
-    ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+    PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
@@ -36,10 +41,10 @@ class PostAdapter(private val onInteractionListener: OnInteractionListener) :
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)
-        holder.bind(post)
+       getItem(position)?.let {
+           holder.bind(it)
+       }
     }
-
 }
 
 class PostViewHolder(
@@ -48,20 +53,35 @@ class PostViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Post) {
+        val url = "http://10.0.2.2:9999"
+
         binding.apply {
             authorName.text = post.author
             date.text = post.date
             contentPost.text = post.content
+            avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
             likes.text = PostService.countPresents(post.likesCount)
             share.text = PostService.countPresents(post.shareCount)
             videoLink.text = post.video
-
             likes.isChecked = post.likedByMe
 
             if (!post.video.isNullOrEmpty()) {
                 groupForVideo.visibility = View.VISIBLE
             } else {
                 groupForVideo.visibility = View.GONE
+            }
+
+            if(post.attachment == null){
+                attachments.visibility = View.GONE
+            } else {
+                attachments.visibility = View.VISIBLE
+
+                Glide.with(attachments)
+                    .load("$url/images/${post.attachment?.url}")
+                    .error(R.drawable.ic_error)
+                    .placeholder(R.drawable.ic_loading_avatar)
+                    .timeout(10_000)
+                    .into(attachments)
             }
 
             likes.setOnClickListener {
@@ -80,9 +100,12 @@ class PostViewHolder(
                 onInteractionListener.onSinglePost(post)
             }
 
+            menuButton.visibility = if (post.ownedByMe) View.VISIBLE else View.INVISIBLE
+
             menuButton.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.post_menu)
+                    menu.setGroupVisible(R.id.owned, post.ownedByMe)
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.remove -> {
@@ -98,6 +121,19 @@ class PostViewHolder(
                     }
                 }.show()
             }
+
+            Glide.with(avatar)
+                .load("$url/avatars/${post.authorAvatar}")
+                .error(R.drawable.ic_error)
+                .placeholder(R.drawable.ic_loading_avatar)
+                .circleCrop()
+                .timeout(10_000)
+                .into(avatar)
+
+            attachments.setOnClickListener {
+                onInteractionListener.onFullScreenImage(post)
+            }
+
         }
     }
 }

@@ -9,9 +9,6 @@ import kotlin.math.roundToInt
 
 object PostService {
 
-    val post = Post (id = 1, author = " ", content = " ", likedByMe=false,
-       date = " ")
-
     fun countPresents(counter: Long): String {
         return when(counter) {
             in 0..999 -> "${counter}"
