@@ -29,5 +29,18 @@
     <string name="sign_up">Зарегистрироваться</string>
     <string name="sign_out">Выйти</string>
     <string name="cancel">Отменить</string>
+    <string name="sign_in_exception_message">Не получается войти. Скорее всего не верный логин или пароль.</string>
+    <string name="sign_up_exception_message">Не получается зарегистрироваться.</string>
+    <string name="login_pass_input">Введите логин и пароль</string>
+    <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in_button">Войти</string>
+    <string name="cancel_button">отмена</string>
+    <string name="username_input">Введите логин</string>
+    <string name="password_input">Введите пароль</string>
+    <string name="register_title">Регистрация</string>
+    <string name="password_reg_confirm">Подтвердите пароль</string>
+    <string name="reg_button">РЕГИСТРАЦИЯ</string>
+    <string name="username_reg">Введите имя</string>
 
 </resources>

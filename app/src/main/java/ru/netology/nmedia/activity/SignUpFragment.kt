@@ -6,21 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentSignUpBinding
 import ru.netology.nmedia.viewmodel.SignInViewModel
 import ru.netology.nmedia.viewmodel.SignUpViewModel
 
-class SignUpFragment: DialogFragment() {
+class SignUpFragment: Fragment() {
 
-    private val signInViewModel: SignUpViewModel by viewModels(
+    private val signUpViewModel: SignUpViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
-
-    var bindingSI: FragmentSignUpBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,33 +33,46 @@ class SignUpFragment: DialogFragment() {
             container,
             false
         )
-        bindingSI = binding
+
+        signUpViewModel.dataState.observe(viewLifecycleOwner, { state ->
+            with(binding) {
+                if(state.loading) {
+                    signUpProgressLoading.visibility = View.VISIBLE
+                }
+                if (state.authState) {
+                    findNavController().navigate(R.id.feedFragment)
+                }
+                if (state.error) {
+                    regError.visibility = View.VISIBLE
+                    ifErrorGone.visibility = View.GONE
+                    retryButton.setOnClickListener {
+                        regError.visibility = View.GONE
+                        ifErrorGone.visibility = View.VISIBLE
+                    }
+                }
+            }
+        })
+
+        with(binding) {
+
+            regButton.setOnClickListener {
+                if (usernameRegInput.text?.trim().toString().isBlank() || loginRegInput.text?.trim().toString().isBlank()
+                    || passwordRegInput.text?.trim().toString().isBlank() || passwordRegConfirmInput.text?.trim().toString().isBlank()) {
+                    Toast.makeText(context, "Введите все данные для регистрации", Toast.LENGTH_SHORT).show()
+                } else if (passwordRegInput.text?.trim().toString() != passwordRegConfirmInput.text?.trim().toString()){
+                    Toast.makeText(context, "Потвержденный пароль не совпадает с введенным паролем", Toast.LENGTH_SHORT).show()
+                } else {
+                    signUpViewModel.signeUp(usernameRegInput.text?.trim().toString(), loginRegInput.text?.trim().toString(),
+                        passwordRegInput.text?.trim().toString())
+                }
+            }
+            cancelButton.setOnClickListener {
+                findNavController().navigate(R.id.feedFragment)
+            }
+
+        }
 
         return binding.root
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
-
-            val inflater = requireActivity().layoutInflater;
-
-            builder.setView(inflater.inflate(R.layout.fragment_sign_up, null))
-                .setPositiveButton(
-                    R.string.sign_up
-                ) { dialog, id ->
-                    val login = bindingSI?.username?.text?.trim().toString()
-                    val name = bindingSI?.username?.text?.trim().toString()
-                    val password = bindingSI?.password?.text?.trim().toString()
-                    signInViewModel.signeUp(name, login, password)
-                }
-                .setNegativeButton(
-                    R.string.cancel
-                ) { dialog, id ->
-                    getDialog()?.cancel()
-                }
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
     }
 
 }

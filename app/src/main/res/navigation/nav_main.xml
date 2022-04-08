@@ -26,9 +26,6 @@
         <action
             android:id="@+id/action_feedFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
     </fragment>
 
     <fragment
@@ -54,12 +51,16 @@
         android:id="@+id/imageFragment"
         android:name="ru.netology.nmedia.activity.ImageFragment"
         android:label="fragment_image"
-        tools:layout="@layout/fragment_image" />
-    <dialog
+        tools:layout="@layout/fragment_image" >
+        <action
+            android:id="@+id/action_imageFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/signInFragment"
         android:name="ru.netology.nmedia.activity.SignInFragment"
         android:label="SignInFragment" />
-    <dialog
+    <fragment
         android:id="@+id/signUpFragment"
         android:name="ru.netology.nmedia.activity.SignUpFragment"
         android:label="SignUpFragment" />
