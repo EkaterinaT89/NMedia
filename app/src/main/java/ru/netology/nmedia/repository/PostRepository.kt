@@ -2,6 +2,7 @@ package ru.netology.nmedia.repository
 
 import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.netology.nmedia.auth.AuthState
@@ -11,7 +12,7 @@ import ru.netology.nmedia.dto.Post
 
 interface PostRepository {
 
-    val data: Flow<List<Post>>
+    val data: Flow<PagingData<Post>>
 
     fun getNewerCount(id: Long): Flow<Int>
 

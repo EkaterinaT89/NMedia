@@ -12,14 +12,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.CardPostFragment.Companion.showPost
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
@@ -126,12 +129,22 @@ class FeedFragment : Fragment() {
             }
         })
 
-        viewModel.data.observe(viewLifecycleOwner, { state ->
-            adapter.submitList(state.posts)
-            with(binding) {
-                emptyText.isVisible = state.empty
+        lifecycleScope.launchWhenCreated {
+            viewModel.data.collectLatest(adapter::submitData)
+        }
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest { state ->
+                binding.swiperefresh.isRefreshing =
+                    state.refresh is LoadState.Loading ||
+                            state.prepend is LoadState.Loading ||
+                            state.append is LoadState.Loading
             }
-        })
+        }
+
+        binding.swiperefresh.setOnRefreshListener(adapter::refresh)
+
+        authViewModel.data.observe(viewLifecycleOwner) { adapter.refresh() }
 
         binding.retryButton.setOnClickListener {
             viewModel.loadPosts()
@@ -150,12 +163,12 @@ class FeedFragment : Fragment() {
         }
 
         with(binding) {
-            viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-                if (state > 0) {
-                    topNav.getTabAt(3)?.orCreateBadge?.number = state
-                    getNewPosts.visibility = View.VISIBLE
-                }
-            }
+//            viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//                if (state > 0) {
+//                    topNav.getTabAt(3)?.orCreateBadge?.number = state
+//                    getNewPosts.visibility = View.VISIBLE
+//                }
+//            }
 
             getNewPosts.setOnClickListener {
                 getNewPosts.visibility = View.GONE
