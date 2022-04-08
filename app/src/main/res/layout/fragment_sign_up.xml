@@ -1,0 +1,200 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="20dp"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/if_error_gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="reg_form, cancel_button, reg_button" />
+
+
+    <LinearLayout
+        android:id="@+id/reg_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="150dp"
+        android:elevation="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/sign_up_progress_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/register_title"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/app_name"
+            android:gravity="center"
+            android:padding="5dp"
+            android:scaleType="center"
+            android:text="@string/register_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/username_reg"
+            android:importantForAutofill="no"
+            android:inputType="text" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username_reg_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:inputType="text"
+                tools:ignore="RtlSymmetry" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/username_input"
+            android:importantForAutofill="no"
+            android:inputType="text" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_reg_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:inputType="text"
+                tools:ignore="RtlSymmetry" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/password_input"
+            android:importantForAutofill="no"
+            android:inputType="text" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_reg_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:inputType="textPassword"
+                tools:ignore="RtlSymmetry" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_reg_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_reg_confirm"
+            android:importantForAutofill="no"
+            android:inputType="text" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_reg_confirm_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:inputType="textPassword"
+                tools:ignore="RtlSymmetry" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_button"
+        android:text="@string/cancel_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_form"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reg_button"
+        android:text="@string/reg_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_form"/>
+
+    <ProgressBar
+        android:id="@+id/reg_progress_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/reg_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/grey"
+        android:elevation="15dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/retry_loading" />
+
+        <TextView
+            android:id="@+id/error_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="210dp"
+            android:layout_marginBottom="@dimen/common_spacing"
+            android:elevation="15dp"
+            android:padding="15dp"
+            android:text="@string/error_loading"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/reg_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp" />
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
