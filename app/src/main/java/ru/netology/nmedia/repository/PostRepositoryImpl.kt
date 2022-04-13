@@ -14,14 +14,14 @@ import ru.netology.nmedia.exception.UnknownException
 import java.io.IOException
 import java.lang.Exception
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import ru.netology.nmedia.api.ApiService
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.auth.AuthState
+import ru.netology.nmedia.dao.PostRemoteKeyDao
+import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.MediaUpload
@@ -32,14 +32,20 @@ import javax.inject.Singleton
 
 @Singleton
 class PostRepositoryImpl @Inject constructor(
+    appDb: AppDb,
+    postRemoteKeyDao: PostRemoteKeyDao,
     private val dao: PostDao,
     private val apiService: ApiService
 ) : PostRepository {
 
+    @OptIn(ExperimentalPagingApi::class)
     override val data: Flow<PagingData<Post>> = Pager(
-        config = PagingConfig(pageSize = 5, enablePlaceholders = false),
-        pagingSourceFactory = { PostPagingSource(apiService) },
-    ).flow
+        config = PagingConfig(pageSize = 25),
+        remoteMediator = PostRemoteMediator(apiService, appDb, dao, postRemoteKeyDao),
+        pagingSourceFactory = dao::pagingSource,
+    ).flow.map { pagingData ->
+        pagingData.map(PostEntity::toDto)
+    }
 
     @Inject
     lateinit var auth: AppAuth
