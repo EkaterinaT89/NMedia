@@ -7,9 +7,8 @@ import ru.netology.nmedia.enums.AttachmentType
 
 
 @Parcelize
-
 data class Post(
-    val id: Long,
+    override val id: Long,
     val author: String,
     val authorId: Long,
     val content: String,
@@ -28,7 +27,7 @@ data class Post(
     var attachment: Attachment? = null,
 //    var show: Boolean
 
-): Parcelable {
+) : FeedItem(), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString().toString(),

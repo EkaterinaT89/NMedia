@@ -28,21 +28,18 @@ class PostRemoteMediator(
     ): MediatorResult {
         try {
             val response = when (loadType) {
-//                LoadType.REFRESH -> service.getLatest(state.config.initialLoadSize)
 
-//    REFRESH не затирал предыдущий кеш, а добавлял данные сверху, учитывая id последнего поста сверху (соответственно, swipe to refresh должен "добавлять" данные, а не затирать их).
                 LoadType.REFRESH -> postRemoteKeyDao.max()?.let {
                     service.getAfter(it, state.config.pageSize)
                 } ?: service.getLatest(state.config.initialLoadSize)
 
                 LoadType.PREPEND -> {
-//Автоматический PREPEND был отключен
-                    return MediatorResult.Success(true)
-//                    val id = postRemoteKeyDao.max() ?: return MediatorResult.Success(
-//                        endOfPaginationReached = false
-//                    )
-//                    service.getAfter(id, state.config.pageSize)
+                    val id = postRemoteKeyDao.max() ?: return MediatorResult.Success(
+                        endOfPaginationReached = false
+                    )
+                    service.getAfter(id, state.config.pageSize)
                 }
+
                 LoadType.APPEND -> {
                     val id = postRemoteKeyDao.min() ?: return MediatorResult.Success(
                         endOfPaginationReached = false
@@ -58,6 +55,12 @@ class PostRemoteMediator(
                 response.code(),
                 response.message(),
             )
+
+            if (body.isEmpty()) {
+                return MediatorResult.Success(
+                    endOfPaginationReached = false
+                )
+            }
 
             val data = response.body() ?: throw HttpException(response)
 
