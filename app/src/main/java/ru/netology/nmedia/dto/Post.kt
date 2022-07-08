@@ -2,30 +2,45 @@ package ru.netology.nmedia.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import ru.netology.nmedia.enums.AttachmentType
 
 
 @Parcelize
-
 data class Post(
-    val id: Long,
+    override val id: Long,
     val author: String,
+    val authorId: Long,
     val content: String,
-    val likedByMe: Boolean,
-    var likesCount: Long = 0,
-    val date: String,
-    var shareCount: Long = 0,
-    var video: String? = null
+    var likedByMe: Boolean,
 
-): Parcelable {
+    @SerializedName("likes")
+    var likesCount: Long = 0,
+
+    @SerializedName("published")
+    val date: String,
+
+    val ownedByMe: Boolean = false,
+    var shareCount: Long = 0,
+    var video: String? = null,
+    val authorAvatar: String,
+    var attachment: Attachment? = null,
+//    var show: Boolean
+
+) : FeedItem(), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString().toString(),
+        parcel.readLong(),
         parcel.readString().toString(),
         parcel.readByte() != 0.toByte(),
         parcel.readLong(),
         parcel.readString().toString(),
+        parcel.readByte() != 0.toByte(),
         parcel.readLong(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readString().toString()
+//        show = parcel.readByte() != 0.toByte()
     ) {
     }
 
@@ -57,3 +72,10 @@ data class Post(
 }
 
 annotation class Parcelize
+
+data class Attachment(
+    val url: String,
+    val type: AttachmentType
+)
+
+
